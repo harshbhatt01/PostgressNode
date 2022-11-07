@@ -11,8 +11,8 @@ client.connect();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-app.get('/hb', (req, res)=>{
-    client.query(`Select * from hb`, (err, result)=>{
+app.get('/blocks/:blocks', (req, res)=>{
+    client.query(`Select * from blocks`, (err, result)=>{
         if(!err){
             res.send(result.rows);
         }
@@ -20,8 +20,8 @@ app.get('/hb', (req, res)=>{
     client.end;
 })
 
-app.get('/hb/:id', (req, res)=>{
-    client.query(`Select * from hb where id=${req.params.id}`, (err, result)=>{
+app.get('/logs', (req, res)=>{
+    client.query(`Select * from logs`, (err, result)=>{
         if(!err){
             res.send(result.rows);
         }
@@ -29,16 +29,30 @@ app.get('/hb/:id', (req, res)=>{
     client.end;
 })
 
-app.post('/hb', (req, res)=> {
-    const hb = req.body;
-    let insertQuery = `insert into hb(id, fname, lname) 
-                       values(${hb.id}, '${hb.fname}', '${hb.lname}')`
-
-    client.query(insertQuery, (err, result)=>{
+app.get('/token_transfers', (req, res)=>{
+    client.query(`Select * from token_transfers`, (err, result)=>{
         if(!err){
-            res.send('Insertion was successful')
+            res.send(result.rows);
         }
-        else{ console.log(err.message) }
-    })
+    });
     client.end;
 })
+
+app.get('/traces', (req, res)=>{
+    client.query(`Select * from traces`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
+
+app.get('/transactions', (req, res)=>{
+    client.query(`Select * from transactions`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
+
